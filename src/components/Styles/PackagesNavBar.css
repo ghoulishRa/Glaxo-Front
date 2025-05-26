@@ -54,6 +54,8 @@
 
 .side-ref:hover{
     background-color: #ffc857;
+    box-shadow: 0 10px 20px #967123 ;
+    cursor: pointer;
 }
 
 .sidebar-title{

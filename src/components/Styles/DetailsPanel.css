@@ -1,31 +1,30 @@
 .detail-bar {
 display: none;
 }
-/* src/styles/RightSidebar.css */
 
-.sidebar-right {
+.details-panel{
   height: 100%;
   width: 0;                       
   box-sizing: border-box;
-    border-radius: 5px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-    overflow: hidden;
-    transition: all 1.0s ease;
-    background-color: #fff;
-    color:#000 
+  border-radius: 5px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  transition: all 1.0s ease;
+  background-color: #fff;
+  color:#000 
 }
 
-.sidebar-right.open {
+.details-panel.open {
   width: 250px;
 }
 
-.right-header {
+.details-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 5px;
   margin:5px;
-  background-color: #fff;
+  background-color: #ffc857;
   border-bottom: 1px solid #ddd;
   color:#333;
 }

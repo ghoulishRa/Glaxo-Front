@@ -1,7 +1,7 @@
     import React from 'react';
     import './Styles/PackagesNavBar.css';
 
-    const LeftBar = ({ items, onSelectItem }) => {
+    const LeftBar = ({ robot, paquete, onSelectItem }) => {
     return (
 
         <div className='container'>
@@ -14,8 +14,8 @@
                         <h3>Paquetes</h3>
                     </div>
                     <ul className="package-list">
-                        {items.map(item => (
-                        <li key={item.id} className="side-link">
+                        {paquete.map(item => (
+                        <li key={`p-${item.id}`} className="side-link">
                             <button
                             className="side-ref"
                             onClick={() => onSelectItem(item)}
@@ -37,14 +37,14 @@
                         <h3>Robots</h3>
                     </div>
                     <ul className="package-list">
-                        {items.map(item => (
-                        <li key={item.id} className="side-link">
+                        {robot.map(item => (
+                        <li key={`r-${item.id}`} className="side-link">
                             <button
                             className="side-ref"
                             onClick={() => onSelectItem(item)}
                             >
                             <span className="item-icon">
-                                <i className='bx bx-box'></i>
+                                <i className='bx bx-bug bx'></i>
                             </span>
                             <span className="package-name">{item.nombre}</span>
                             </button>

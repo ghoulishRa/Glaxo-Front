@@ -1,33 +1,43 @@
-// src/components/RightSidebar.jsx
+// src/components/DetailsPanel.jsx
 import React from 'react';
 import './Styles/DetailsPanel.css';
 
-const rightBar = ({ item, onClose }) => {
-  // Si item es null, devolvemos null (no renderizamos nada).
-  // Pero podemos usar CSS para animar la salida (con transition).
+const DetailsPanel = ({ item, onClose }) => {
+  if (!item) {
+    return <aside className="details-panel" />;
+  }
+
   return (
-    <aside className={`sidebar-right ${item ? 'open' : ''}`}>
-      <div className="right-header">
-        <h3>Detalles</h3>
+    <aside className={`details-panel open`}>
+      <div className="details-header">
+        <h3>
+          {item.type === 'package' ? 'Detalle del Paquete' : 'Detalle del Robot'}
+        </h3>
         <button className="close-btn" onClick={onClose}>
-          <i class='bx bx-x bx-sm'></i> 
+          <i className='bx bx-x'></i>
         </button>
       </div>
-      {item ? (
-        <div className="details-content">
-          <p><strong>ID:</strong> {item.id}</p>
-          <p><strong>Nombre:</strong> {item.nombre}</p>
-          <p><strong>Status:</strong> {item.status}</p>
-          <p><strong>Ubicación:</strong> {item.ubicacion}</p>
-        </div>
-      ) : (
-        // Si quisieras un “placeholder” cuando no hay ítem, pero suele bastar con que esté vacío
-        <div className="details-content">
-          <p>No hay ítem seleccionado</p>
-        </div>
-      )}
+
+      <div className="details-content">
+        <p><strong>ID:</strong> {item.id}</p>
+        <p><strong>Nombre:</strong> {item.nombre}</p>
+        <p><strong>Status:</strong> {item.status}</p>
+
+        {item.type === 'package' && (
+          <>
+            <p><strong>Ubicación:</strong> {item.ubicacion}</p>
+          </>
+        )}
+
+        {item.type === 'robot' && (
+          <>
+            <p><strong>Ubicación:</strong> {item.ubicacion}</p>
+        
+          </>
+        )}
+      </div>
     </aside>
   );
 };
 
-export default rightBar;
+export default DetailsPanel;

@@ -9,10 +9,15 @@ const App = () => {
   const [selectedItem, setSelectedItem] = useState(null);
 
   const paquetes = [
-    { id: 1, nombre: 'Paquete A', status: 'activo', ubicacion: 'Almacén 1' },
-    { id: 2, nombre: 'Paquete B', status: 'desactivado', ubicacion: 'Almacén 2' },
-    { id: 3, nombre: 'Paquete C', status: 'activo', ubicacion: 'Almacén 3' },
-    { id: 3, nombre: 'Paquete C', status: 'activo', ubicacion: 'Almacén 3' },
+    { id: 1, type:'package', nombre: 'Paquete A', status: 'activo', ubicacion: 'Almacén 1' },
+    { id: 2, type:'package', nombre: 'Paquete B', status: 'desactivado', ubicacion: 'Almacén 2' },
+    { id: 3, type:'package', nombre: 'Paquete C', status: 'activo', ubicacion: 'Almacén 3' },
+    { id: 4, type:'package', nombre: 'Paquete D ', status: 'activo', ubicacion: 'Almacén 3' },
+  ];
+
+    const robots = [
+    { id: 1, type:'robot', nombre: 'Robot 1', status: 'activo', ubicacion: 'Almacén 1' },
+    
   ];
 
   const handleSelectItem = (item) => {
@@ -28,7 +33,8 @@ const App = () => {
       <Navbar />
       <div style={{ display: 'flex' }}>
         <PackagesNavBar
-          items={paquetes}
+          paquete={paquetes}
+          robot={robots}
           onSelectItem={handleSelectItem}
         />
         <main style={{ flex: 1, padding: '20px' }}>
@@ -38,7 +44,6 @@ const App = () => {
           item={selectedItem}
           onClose={closeRightSidebar}
         />
-        
       </div>
 
 
