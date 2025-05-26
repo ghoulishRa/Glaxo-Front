@@ -1,0 +1,57 @@
+/* components/Card.css */
+.card {
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  padding: 5px;
+  max-width: 800px;
+  margin: 16px auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.card img {
+  width: 100%;
+  border-radius: 8px;
+  object-fit: cover;
+  transform: scale(var(--zoom, 1));
+  transform-origin: var(--x) var(--y);
+  transition: transform 0.8 ease;
+}
+
+.title-container{
+  width: 85%;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-self: center;
+}
+
+.card-title {
+  font-size: 1.4rem;
+  margin: 5px;
+  font-weight: bold;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode';
+  align-self: flex-start; 
+}
+.card-description {
+  font-size: 1.4rem;
+  margin: 5px;
+  font-weight: bold;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode';
+}
+
+.card-title, .card-description{
+  color: #db3a34;
+}
+
+.card-body {
+  font-size: 1rem;
+  color: #333;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

@@ -1,0 +1,63 @@
+.detail-bar {
+display: none;
+}
+/* src/styles/RightSidebar.css */
+
+.sidebar-right {
+  height: 100%;
+  width: 0;                       
+  box-sizing: border-box;
+    border-radius: 5px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+    transition: all 1.0s ease;
+    background-color: #fff;
+    color:#000 
+}
+
+.sidebar-right.open {
+  width: 250px;
+}
+
+.right-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  margin:5px;
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  color:#333;
+}
+
+.right-header h3 {
+  margin: 0;
+  font-family: "Arvo", sans-serif;
+  font-size: 18px;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #db3a34;;
+}
+
+/* Contenido de detalles */
+.details-content {
+  padding: 20px;
+  font-family: "Arvo", sans-serif;
+  color: #333;
+}
+
+.details-content p {
+  margin: 10px 0;
+}
+
+/* En pantallas pequeñas, tal vez queramos ocupar el 100% de ancho */
+@media (max-width: 768px) {
+  .sidebar-right.open {
+    width: 100%;
+  }
+}
