@@ -1,9 +1,23 @@
 import React, { useState } from 'react';
-import './App.css'
+import './App.css';
+
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+} from 'react-router-dom';
+
+//vistas
 import Dashboard from './pages/Dashboard.jsx';
+
+
+//componentes
+
 import Navbar from './components/NavBar.jsx';
-import PackagesNavBar from './components/PackagesNavBar.jsx'
-import DetailsPanel from './components/DetailsPanel.jsx'
+import PackagesNavBar from './components/PackagesNavBar.jsx';
+import DetailsPanel from './components/DetailsPanel.jsx';
+
+
 
 const App = () => {
   const [selectedItem, setSelectedItem] = useState(null);
@@ -29,25 +43,34 @@ const App = () => {
   };
 
   return (
-    <>
+
+    <Router>
+
       <Navbar />
-      <div style={{ display: 'flex' }}>
-        <PackagesNavBar
-          paquete={paquetes}
-          robot={robots}
-          onSelectItem={handleSelectItem}
+
+      <Routes>
+        <Route path="/" element=
+          {  
+            <div style={{ display: 'flex', justifyItems:"center" }}>
+              <PackagesNavBar
+                paquete={paquetes}
+                robot={robots}
+                onSelectItem={handleSelectItem}
+              />
+              <main style={{ flex: 1, padding: '20px' }}>
+                <Dashboard />
+              </main>
+              <DetailsPanel
+                item={selectedItem}
+                onClose={closeRightSidebar}
+              />
+            </div>
+          }
         />
-        <main style={{ flex: 1, padding: '20px' }}>
-          <Dashboard />
-        </main>
-        <DetailsPanel
-          item={selectedItem}
-          onClose={closeRightSidebar}
-        />
-      </div>
+      </Routes>
+    </Router>
 
 
-    </>
   );
 };
 
