@@ -33,14 +33,13 @@
   font-size: 1.4rem;
   margin: 5px;
   font-weight: bold;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode';
+
   align-self: flex-start; 
 }
 .card-description {
   font-size: 1.4rem;
   margin: 5px;
-  font-weight: bold;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode';
+  font-family: 'Arvo', 'Lucida Sans Unicode';
 }
 
 .card-title, .card-description{

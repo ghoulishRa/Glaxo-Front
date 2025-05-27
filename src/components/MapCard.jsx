@@ -2,7 +2,7 @@ import React from 'react';
 import Card from './Card.jsx';
 import './Styles/MapCard.css'
 
-const MapCard = ({ position, map, floorName, onPrev, onNext }) => {
+const MapCard = ({ items, map, floorName, onPrev, onNext }) => {
   return (
     <Card title="Mapa" description={floorName}>
       <div style={{
@@ -22,7 +22,18 @@ const MapCard = ({ position, map, floorName, onPrev, onNext }) => {
           style={{ backgroundColor: '#fff' }}
         >
           <image href={map} width="750" height="375" />
-          <circle cx={position.x} cy={position.y} r="4" fill="red" />
+
+          {
+            items.map(item =>(
+              <circle
+                key = {item.id}
+                cx = {item.position.x}
+                cy = {item.position.y}
+                r = '4'
+                fill= {item.type === 'package' ? 'red' : 'blue'}
+              />
+            ))
+          }
         </svg>
 
         <button className="maps-btn" onClick={onNext}>

@@ -30,7 +30,7 @@ const App = () => {
   ];
 
     const robots = [
-    { id: 1, type:'robot', nombre: 'Robot 1', status: 'activo', ubicacion: 'Almacén 1' },
+    { id: 101 , type:'robot', nombre: 'Robot 1', status: 'activo', ubicacion: 'Almacén 1' },
     
   ];
 
@@ -61,7 +61,9 @@ const App = () => {
                 onSelectItem={handleSelectItem}
               />
               <main style={{ flex: 1, padding: '20px' }}>
-                <Dashboard />
+                <Dashboard
+                  item={selectedItem}
+                />
               </main>
               <DetailsPanel
                 item={selectedItem}
