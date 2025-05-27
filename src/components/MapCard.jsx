@@ -1,43 +1,46 @@
 import React from 'react';
 import Card from './Card.jsx';
-import './Styles/MapCard.css'
+import './Styles/MapCard.css';
+import TargetIcon from '../assets/icons/targeticon.jsx';
 
 const MapCard = ({ items, map, floorName, onPrev, onNext }) => {
   return (
     <Card title="Mapa" description={floorName}>
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        width: '100%',
-        justifyContent: 'space-between'
-      }}>
+      <div className='map-container'>
         <button className="maps-btn" onClick={onPrev}>
-          <i className='bx bx-caret-left bx-sm'></i>
+          <i className="bx bx-caret-left bx-sm"></i>
         </button>
 
-        <svg
-          width="700"
-          height="350"
-          viewBox="0 0 750 375"
-          style={{ backgroundColor: '#fff' }}
+        <div
+          className="relative"
+          style={{
+            width: '700px',
+            height: '350px',
+            position: 'relative',
+            backgroundColor: '#fff',
+          }}
         >
-          <image href={map} width="750" height="375" />
-
-          {
-            items.map(item =>(
-              <circle
-                key = {item.id}
-                cx = {item.position.x}
-                cy = {item.position.y}
-                r = '4'
-                fill= {item.type === 'package' ? 'red' : 'blue'}
-              />
-            ))
-          }
-        </svg>
+          <img
+            src={map}
+            alt="Mapa"
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              display: 'block',
+            }}
+          />
+          {items.map((item) => (
+            <TargetIcon
+              key={item.id}
+              x={item.position.x}
+              y={item.position.y}
+            />
+          ))}
+        </div>
 
         <button className="maps-btn" onClick={onNext}>
-          <i className='bx bx-caret-right bx-sm'></i>
+          <i className="bx bx-caret-right bx-sm"></i>
         </button>
       </div>
     </Card>

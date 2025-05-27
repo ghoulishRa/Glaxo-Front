@@ -18,27 +18,25 @@ const Dashboard = ({item}) => {
   //usando socket para datos en tiempo real
   const robotPosition = useEmployeeSocket();
 
-  //simular varios items
-  // const itemsOnMap = [
-  //   { id: 1, type: 'package', nombre: 'Paquete A', position: { x: 120, y: 80 } },
-  //   { id: 2, type: 'package', nombre: 'Paquete B', position: { x: 300, y: 150 } },
-  //   { id: 101, type: 'robot', nombre: 'Robot 1', position: Robotposition },
-  // ];
-
   useEffect(() => {
     if (!item) return;
 
-    const alreadyVisible = visibleItems.some((it) => it.id === item.id);
-    if (alreadyVisible) return;
+    setVisibleItems(prev =>{
+      const alreadyExists = prev.some(it => it.id === item.id);
+      if (alreadyExists) {
+        return prev.filter(it => it.id !== item.id);
+      }
 
-    const newItem = {
-      id: item.id,
-      type: item.type,
-      nombre: item.nombre,
-    };
-
-    setVisibleItems((prev) => [...prev, newItem]);
-  }, [item, visibleItems]);
+      return [
+        ...prev,
+        {
+          id: item.id,
+          type: item.type,
+          nombre: item.nombre
+        }, 
+      ];
+    });
+  } , [item]);
 
 
   const mapItem = visibleItems.map((it) => {
