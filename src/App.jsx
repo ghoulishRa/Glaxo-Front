@@ -51,7 +51,10 @@ const App = () => {
       <Routes>
         <Route path="/" element=
           {  
-            <div style={{ display: 'flex', justifyItems:"center" }}>
+            <div style={{ display: 'flex', 
+                          justifyItems:"center", 
+                          alignContent:"center" }}>
+                            
               <PackagesNavBar
                 paquete={paquetes}
                 robot={robots}

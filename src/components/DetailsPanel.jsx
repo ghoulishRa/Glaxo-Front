@@ -8,6 +8,8 @@ const DetailsPanel = ({ item, onClose }) => {
   }
 
   return (
+  
+
     <aside className={`details-panel open`}>
       <div className="details-header">
         <h3>
@@ -37,6 +39,11 @@ const DetailsPanel = ({ item, onClose }) => {
         )}
       </div>
     </aside>
+
+    
+
+
+
   );
 };
 

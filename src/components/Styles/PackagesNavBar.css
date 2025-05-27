@@ -1,4 +1,8 @@
-
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 .sidebar{
     width: 60px;
     height: auto;

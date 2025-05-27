@@ -1,5 +1,7 @@
+
 .detail-bar {
-display: none;
+  display: none;
+  justify-content: center;
 }
 
 .details-panel{
@@ -11,7 +13,8 @@ display: none;
   overflow: hidden;
   transition: all 1.0s ease;
   background-color: #fff;
-  color:#000 
+  color:#000;
+  align-self: center;
 }
 
 .details-panel.open {
