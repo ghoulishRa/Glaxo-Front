@@ -9,6 +9,7 @@ import {
 
 //vistas
 import Dashboard from './pages/Dashboard.jsx';
+import Inventroy from './pages/Inventory.jsx';
 
 
 //componentes
@@ -71,6 +72,13 @@ const App = () => {
               />
             </div>
           }
+        />
+        <Route path ="/inventario" element=
+        {
+          <Inventroy/>
+
+        }
+
         />
       </Routes>
     </Router>

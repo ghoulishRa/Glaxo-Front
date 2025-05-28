@@ -15,10 +15,10 @@ const Navbar = () => {
             <Link className='nav-ref' to="/">Inicio</Link>
           </li>
           <li className='nav-link'>
-            <Link className='nav-ref' to="/empleados">Inventario</Link>
+            <Link className='nav-ref' to="/inventario">Inventario</Link>
           </li>
           <li className='nav-link'>
-            <Link className='nav-ref' to="/historial">Colaboradores</Link>
+            <Link className='nav-ref' to="/colaboradores">Colaboradores</Link>
           </li>
         </ul>
       </nav>

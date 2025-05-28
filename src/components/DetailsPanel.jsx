@@ -12,12 +12,12 @@ const DetailsPanel = ({ item, onClose }) => {
 
     <aside className={`details-panel open`}>
       <div className="details-header">
-        <h3>
-          {item.type === 'package' ? 'Detalle del Paquete' : 'Detalle del Robot'}
-        </h3>
         <button className="close-btn" onClick={onClose}>
           <i className='bx bx-x'></i>
         </button>
+        <h3>
+          {item.type === 'package' ? 'Detalle del Paquete' : 'Detalle del Robot'}
+        </h3>
       </div>
 
       <div className="details-content">

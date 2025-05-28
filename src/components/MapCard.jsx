@@ -35,6 +35,7 @@ const MapCard = ({ items, map, floorName, onPrev, onNext }) => {
               key={item.id}
               x={item.position.x}
               y={item.position.y}
+              type = {item.type}
             />
           ))}
         </div>
