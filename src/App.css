@@ -5,6 +5,12 @@ body{
     background-color: #023047;
 }
 
+.main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 h1, h2{
     font-family: "Alfa Slab One", sans-serif;
 }

@@ -58,7 +58,7 @@ const App = () => {
         <Route
           path="/"
           element={
-            <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+            <div className='main'>
               {/* ───────────── BARRA LATERAL ───────────── */}
               <PackagesNavBar
                 paquete={paquetes}
@@ -84,8 +84,14 @@ const App = () => {
             </div>
           }
         />
-
-        <Route path="/inventario" element={<Inventory />} />
+        <Route path="/inventario" 
+          element={
+            <div className='main'>
+              <Inventory />
+            </div>
+            
+          } 
+        />
       </Routes>
     </Router>
   );

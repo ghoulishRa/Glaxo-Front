@@ -22,6 +22,7 @@ export const useFetchData = (payload, path) => {
         setPaquetes(paquetesData.map(p => ({
           id: p.id_paquete || p.id,
           nombre: p.producto || p.nombre,
+          status: p.status || p.status,
           type: 'package'
         })));
 
