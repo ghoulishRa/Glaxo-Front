@@ -1,35 +1,45 @@
-import { useEffect, useRef, useState } from 'react';
+// src/hooks/useEmployeeSocket.jsx
+import { useEffect, useState } from 'react';
+import io from 'socket.io-client';
 
-const SOCKET_URL = 'ws://localhost:8080';
+const SOCKET_URL = 'http://192.168.1.20:3002'; // la URL de tu servidor Socket.IO
 
+/**
+ * useEmployeeSocket:
+ *   - Conecta a Socket.IO en SOCKET_URL.
+ *   - Escucha el evento "position" (o el que tu servidor emita).
+ *   - Actualiza el estado { x, y } cada vez que llega un mensaje de posición.
+ */
 export const useEmployeeSocket = () => {
   const [pos, setPos] = useState({ x: 100, y: 300 });
-  const socketRef = useRef(null);
 
   useEffect(() => {
-    const socket = new WebSocket(SOCKET_URL);
-    socketRef.current = socket;
+    // 1) Conectar al servidor Socket.IO
+    const socket = io(SOCKET_URL);
 
-    socket.addEventListener('open', () => {
-      console.log('WebSocket conectado');
+    // 2) Registrar manejadores
+    socket.on('connect', () => {
+      console.log('Socket.IO conectado, id:', socket.id);
     });
 
-    socket.addEventListener('message', event => {
-      try {
-        const data = JSON.parse(event.data);
-        if (data.type === 'position') {
-          setPos({ x: data.x, y: data.y });
-        }
-      } catch (err) {
-        console.error('JSON inválido del servidor:', event.data);
+    // Suponemos que tu servidor emite un evento llamado "position"
+    socket.on('position', (data) => {
+      // data debería ser { x: Number, y: Number }
+      if (data && typeof data.x === 'number' && typeof data.y === 'number') {
+        setPos({ x: data.x, y: data.y });
+        console.log('postion x:', data.x, 'position y:',data.y)
       }
     });
 
-    socket.addEventListener('close', () => {
-      console.log('WebSocket desconectado');
+    socket.on('disconnect', (reason) => {
+      console.log('Socket.IO desconectado:', reason);
     });
 
-    return () => socket.close();
+    // 3) Cleanup al desmontar el hook
+    return () => {
+      socket.off('position');
+      socket.disconnect();
+    };
   }, []);
 
   return pos;

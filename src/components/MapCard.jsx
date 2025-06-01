@@ -1,9 +1,10 @@
+// src/components/MapCard.jsx
 import React from 'react';
 import Card from './Card.jsx';
 import './Styles/MapCard.css';
-import TargetIcon from '../assets/icons/targeticon.jsx';
+import TargetIcon from '../assets/icons/TargetIcon.jsx';
 
-const MapCard = ({ items, map, floorName, onPrev, onNext }) => {
+const MapCard = ({ items, map, floorName, onPrev, onNext, onItemClick }) => {
   return (
     <Card title="Mapa" description={floorName}>
       <div className='map-container'>
@@ -30,12 +31,14 @@ const MapCard = ({ items, map, floorName, onPrev, onNext }) => {
               display: 'block',
             }}
           />
+
           {items.map((item) => (
             <TargetIcon
               key={item.id}
               x={item.position.x}
               y={item.position.y}
-              type = {item.type}
+              type={item.type}
+              onClick={() => onItemClick(item.id)}
             />
           ))}
         </div>

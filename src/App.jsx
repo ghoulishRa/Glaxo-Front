@@ -1,3 +1,4 @@
+// src/App.jsx
 import React, { useState } from 'react';
 import './App.css';
 
@@ -7,65 +8,75 @@ import {
   Route,
 } from 'react-router-dom';
 
-//vistas
+// Vistas
 import Dashboard from './pages/Dashboard.jsx';
-import Inventroy from './pages/Inventory.jsx';
+import Inventory from './pages/Inventory.jsx';
 
-
-//componentes
-
+// Componentes
 import Navbar from './components/NavBar.jsx';
 import PackagesNavBar from './components/PackagesNavBar.jsx';
 import DetailsPanel from './components/DetailsPanel.jsx';
 
-
+// Hooks
+import { useFetchData } from './hooks/getData.jsx';
 
 const App = () => {
+  // ---------- 1. Traer paquetes del servidor ----------
+  const { paquetes, loading, error } = useFetchData(3, '/pkg/get_recent');
+
+  // Estado global para el ítem seleccionado (o null si ninguno)
+  // Object shape: { id, nombre, type }
   const [selectedItem, setSelectedItem] = useState(null);
 
-  const paquetes = [
-    { id: 1, type:'package', nombre: 'Paquete A', status: 'activo', ubicacion: 'Almacén 1' },
-    { id: 2, type:'package', nombre: 'Paquete B', status: 'desactivado', ubicacion: 'Almacén 2' },
-    { id: 3, type:'package', nombre: 'Paquete C', status: 'activo', ubicacion: 'Almacén 3' },
-    { id: 4, type:'package', nombre: 'Paquete D ', status: 'activo', ubicacion: 'Almacén 3' },
+  // Por ejemplo, lista estática de robots
+  const robots = [
+    { id: 4004, type: 'robot', nombre: 'Robot 1', status: 'activo', ubicacion: 'Almacén 1' },
+    // ... más robots si fuera el caso
   ];
 
-    const robots = [
-    { id: 101 , type:'robot', nombre: 'Robot 1', status: 'activo', ubicacion: 'Almacén 1' },
-    
-  ];
-
-  const handleSelectItem = (item) => {
-    setSelectedItem(item);
+  // ---------- 2. Handler de toggle: si clicas el mismo id → lo quita; si clicas uno distinto → lo pone ----------
+  const handleToggleItem = (item) => {
+    if (selectedItem && selectedItem.id === item.id) {
+      setSelectedItem(null); // apaga
+    } else {
+      setSelectedItem(item); // enciende
+    }
   };
 
   const closeRightSidebar = () => {
     setSelectedItem(null);
   };
 
+  if (loading) return <p>Cargando datos...</p>;
+  if (error) return <p>Error cargando datos: {error.message}</p>;
+
   return (
-
     <Router>
-
       <Navbar />
 
       <Routes>
-        <Route path="/" element=
-          {  
-            <div style={{ display: 'flex', 
-                          justifyItems:"center", 
-                          alignContent:"center" }}>
-                            
+        <Route
+          path="/"
+          element={
+            <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+              {/* ───────────── BARRA LATERAL ───────────── */}
               <PackagesNavBar
                 paquete={paquetes}
                 robot={robots}
-                onSelectItem={handleSelectItem}
+                onSelectItem={handleToggleItem}
               />
+
+              {/* ──────────── CONTENIDO PRINCIPAL ─────────── */}
               <main style={{ flex: 1, padding: '20px' }}>
                 <Dashboard
-                  item={selectedItem}
+                  paqueteList={paquetes}
+                  robotList={robots}
+                  selectedItem={selectedItem}
+                  onToggleItem={handleToggleItem}
                 />
               </main>
+
+              {/* ─────────── PANEL DERECHA (DETALLES) ─────────── */}
               <DetailsPanel
                 item={selectedItem}
                 onClose={closeRightSidebar}
@@ -73,17 +84,10 @@ const App = () => {
             </div>
           }
         />
-        <Route path ="/inventario" element=
-        {
-          <Inventroy/>
 
-        }
-
-        />
+        <Route path="/inventario" element={<Inventory />} />
       </Routes>
     </Router>
-
-
   );
 };
 

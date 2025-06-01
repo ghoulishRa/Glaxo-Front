@@ -21,9 +21,9 @@ const DetailsPanel = ({ item, onClose }) => {
       </div>
 
       <div className="details-content">
-        <p><strong>ID:</strong> {item.id}</p>
-        <p><strong>Nombre:</strong> {item.nombre}</p>
-        <p><strong>Status:</strong> {item.status}</p>
+        <p><strong>ID:</strong> {item.id_paquete}</p>
+        <p><strong>Nombre:</strong> {item.producto}</p>
+        <p><strong>Status:</strong> {item.estado}</p>
 
         {item.type === 'package' && (
           <>

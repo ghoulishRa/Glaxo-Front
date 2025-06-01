@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+// src/pages/Dashboard.jsx
+import React, { useState } from 'react';
 import MapCard from '../components/MapCard.jsx';
+import { useEmployeeSocket } from '../hooks/positionSocket.jsx';
+
 import Map1 from '../assets/FirstFloor.svg';
 import Map2 from '../assets/FirstFloor.svg';
 import Map3 from '../assets/FirstFloor.svg';
-import { useEmployeeSocket } from '../hooks/positionSocket.jsx';
 
 const maps = [
   { id: 1, name: 'Primer Piso', svg: Map1 },
@@ -11,58 +13,40 @@ const maps = [
   { id: 3, name: 'Tercer Piso', svg: Map3 },
 ];
 
-const Dashboard = ({item}) => {
+// Ajusta a tu escala/origen real
+const imageScale = 18.4;
+const originP = { x: 245, y: 100 };
 
-  const [visibleItems, setVisibleItems] = useState([]);
+const Dashboard = ({ paqueteList, robotList, selectedItem, onToggleItem }) => {
   const [floorIndex, setFloorIndex] = useState(0);
-  //usando socket para datos en tiempo real
-  const robotPosition = useEmployeeSocket();
-
-  useEffect(() => {
-    if (!item) return;
-
-    setVisibleItems(prev =>{
-      const alreadyExists = prev.some(it => it.id === item.id);
-      if (alreadyExists) {
-        return prev.filter(it => it.id !== item.id);
-      }
-
-      return [
-        ...prev,
-        {
-          id: item.id,
-          type: item.type,
-          nombre: item.nombre
-        }, 
-      ];
-    });
-  } , [item]);
+  const robotPosition = useEmployeeSocket(); 
 
 
-  const mapItem = visibleItems.map((it) => {
-    if (it.type === 'robot') {
-      return {
-        ...it,
-        position: robotPosition,
+  const mapItemsArray = [];
+  if (selectedItem) {
+    if (selectedItem.type === 'robot') {
+      
+      const pos = {
+        x: originP.x + robotPosition.y * imageScale,
+        y: originP.y + robotPosition.x * imageScale,
       };
+      mapItemsArray.push({ ...selectedItem, position: pos });
     } else {
+      // Paquete: coordenadas fijas según ID
       const packagesPositions = {
-        1: { x: 120, y: 80 },
-        2: { x: 300, y: 150 },
-        3: { x: 450, y: 200 },
-        4: { x: 600, y: 100 },
+        111: { x: 245, y: 100 },
+        222: { x: 280, y: 100 },
+        333: { x: 450, y: 200 },
+        
       };
-      return {
-        ...it,
-        position: packagesPositions[it.id] || { x: 50, y: 50 },
-      };
+      const pos = packagesPositions[selectedItem.id] || { x: 50, y: 50 };
+      mapItemsArray.push({ ...selectedItem, position: pos });
     }
-  });
+  }
 
   const handlePrev = () => {
     setFloorIndex((prev) => (prev === 0 ? maps.length - 1 : prev - 1));
   };
-
   const handleNext = () => {
     setFloorIndex((prev) => (prev === maps.length - 1 ? 0 : prev + 1));
   };
@@ -70,11 +54,26 @@ const Dashboard = ({item}) => {
   return (
     <div>
       <MapCard
-        items={mapItem}
+        items={mapItemsArray}
         map={maps[floorIndex].svg}
         floorName={maps[floorIndex].name}
         onPrev={handlePrev}
         onNext={handleNext}
+
+        onItemClick={(clickedId) => {
+    
+          const foundRobot = robotList.find((r) => r.id === clickedId);
+          if (foundRobot) {
+            onToggleItem(foundRobot);
+            return;
+          }
+          const foundPackage = paqueteList.find((p) => p.id === clickedId);
+          if (foundPackage) {
+            onToggleItem(foundPackage);
+            return;
+          }
+          console.warn('Ítem clicado en el mapa no encontrado en listas:', clickedId);
+        }}
       />
     </div>
   );
