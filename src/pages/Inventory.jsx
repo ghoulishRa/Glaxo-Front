@@ -1,5 +1,7 @@
 // src/pages/Inventory.jsx
 import React, { useEffect, useState } from 'react';
+import CodeIcon from '../assets/icons/codeIcon';
+import BuildingsIcon from '../assets/icons/buildingIcon';
 import './styles/inventory.css'; // <-- Importamos los estilos
 
 const columns = [
@@ -72,22 +74,30 @@ export default function Inventory() {
     <div className="inventory-container">
       {/* Encabezado con título y filtros */}
       <div className="inventory-header">
-        <h1 className="inventory-title">Inventario</h1>
+        <h2 className="inventory-title">Inventario</h2>
         <div className="inventory-filters">
-          <input
-            type="text"
-            placeholder="Filtrar por SKU"
-            value={skuFilter}
-            onChange={(e) => setSkuFilter(e.target.value)}
-            className="inventory-input"
-          />
-          <input
-            type="text"
-            placeholder="Filtrar por Institución"
-            value={institucionFilter}
-            onChange={(e) => setInstitucionFilter(e.target.value)}
-            className="inventory-input"
-          />
+
+          <div className="input-wrapper">
+            <input
+              type="text"
+              placeholder="Filtrar por SKU"
+              value={skuFilter}
+              onChange={(e) => setSkuFilter(e.target.value)}
+              className="inventory-input"
+            />
+            <CodeIcon className="input-icon" />
+          </div>
+
+          <div className="input-wrapper">
+            <input
+              type="text"
+              placeholder="Filtrar por Institucion"
+              value={institucionFilter}
+              onChange={(e) => setInstitucionFilter(e.target.value)}
+              className="inventory-input"
+            />
+            <BuildingsIcon className="input-icon" />
+          </div>
         </div>
       </div>
 
