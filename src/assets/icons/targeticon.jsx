@@ -7,7 +7,7 @@ const RobotIcon = ({ x, y, onClick }) => (
     xmlns="http://www.w3.org/2000/svg"
     width="32"
     height="32"
-    fill="red"
+    fill= '#e39339'
     viewBox="0 0 48 48"
     onClick={onClick}
     style={{
@@ -29,7 +29,7 @@ const PackageIcon = ({ x, y, onClick }) => (
     xmlns="http://www.w3.org/2000/svg"
     width="32"
     height="32"
-    fill="blue"
+    fill="#13344f"
     viewBox="0 0 42 42"
     onClick={onClick}
     style={{

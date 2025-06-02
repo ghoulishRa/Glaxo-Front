@@ -16,36 +16,49 @@ import Inventory from './pages/Inventory.jsx';
 import Navbar from './components/NavBar.jsx';
 import PackagesNavBar from './components/PackagesNavBar.jsx';
 import DetailsPanel from './components/DetailsPanel.jsx';
+import AddPackageModal from './components/AddPackageModal.jsx';
+
+//Icons
+
+import PlusIcon from './assets/icons/plusIcon.jsx';
 
 // Hooks
 import { useFetchData } from './hooks/getData.jsx';
 
 const App = () => {
-  // ---------- 1. Traer paquetes del servidor ----------
-  const { paquetes, loading, error } = useFetchData(3, '/pkg/get_recent');
-
-  // Estado global para el ítem seleccionado (o null si ninguno)
-  // Object shape: { id, nombre, type }
-  const [selectedItem, setSelectedItem] = useState(null);
-
-  // Por ejemplo, lista estática de robots
+ 
   const robots = [
     { id: 4004, type: 'robot', nombre: 'Robot 1', status: 'activo', ubicacion: 'Almacén 1' },
-    // ... más robots si fuera el caso
   ];
 
-  // ---------- 2. Handler de toggle: si clicas el mismo id → lo quita; si clicas uno distinto → lo pone ----------
+  
+  const { paquetes, loading, error } = useFetchData('all', '/paquetes');
+  const [selectedItem, setSelectedItem] = useState(null);
+  const [sidebarPackages, setSidebarPackages] = useState([]);
+  const [showAddModal, setShowAddModal] = useState(false);
+
   const handleToggleItem = (item) => {
     if (selectedItem && selectedItem.id === item.id) {
-      setSelectedItem(null); // apaga
+      setSelectedItem(null);
     } else {
-      setSelectedItem(item); // enciende
+      setSelectedItem(item);
     }
   };
-
+  
+  const addSidebarPackage = (pkg) => {
+    setSidebarPackages((prev) => {
+      if (prev.some((p) => p.id === pkg.id)) {
+        return prev;
+      }
+      return [...prev, pkg];
+    });
+  };
+ 
   const closeRightSidebar = () => {
     setSelectedItem(null);
   };
+
+  const activePackages = paquetes.filter((p) => p.status === 'activo');
 
   if (loading) return <p>Cargando datos...</p>;
   if (error) return <p>Error cargando datos: {error.message}</p>;
@@ -54,43 +67,60 @@ const App = () => {
     <Router>
       <Navbar />
 
+      <AddPackageModal
+        isOpen={showAddModal}
+        onClose={() => setShowAddModal(false)}
+        packages={activePackages}
+        onAdd={(pkg) => {
+          addSidebarPackage(pkg);
+        }}
+      />
+
       <Routes>
+        
         <Route
           path="/"
           element={
-            <div className='main'>
-              {/* ───────────── BARRA LATERAL ───────────── */}
+            <div className="main" >
+              
               <PackagesNavBar
-                paquete={paquetes}
+                paquete={sidebarPackages}
                 robot={robots}
                 onSelectItem={handleToggleItem}
               />
 
-              {/* ──────────── CONTENIDO PRINCIPAL ─────────── */}
-              <main style={{ flex: 1, padding: '20px' }}>
+              <main className='dashboard-wrapper'>
                 <Dashboard
-                  paqueteList={paquetes}
+                  paqueteList={sidebarPackages}
                   robotList={robots}
                   selectedItem={selectedItem}
                   onToggleItem={handleToggleItem}
                 />
+               
+                <button
+                  className='btn-open-modal'
+                  onClick= {() =>setShowAddModal(true)}
+                >
+                   <PlusIcon/>
+                </button>
               </main>
 
-              {/* ─────────── PANEL DERECHA (DETALLES) ─────────── */}
-              <DetailsPanel
-                item={selectedItem}
-                onClose={closeRightSidebar}
-              />
+              <DetailsPanel item={selectedItem} onClose={closeRightSidebar} />
             </div>
           }
         />
-        <Route path="/inventario" 
+
+        {/* ─────────────────────── Ruta Inventario ─────────────────────── */}
+        <Route
+          path="/inventario"
           element={
-            <div className='main'>
-              <Inventory />
+            <div className="main">
+              <Inventory
+                allPackages={paquetes}
+                addToSidebar={addSidebarPackage}
+              />
             </div>
-            
-          } 
+          }
         />
       </Routes>
     </Router>

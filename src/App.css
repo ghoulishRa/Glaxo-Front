@@ -7,7 +7,7 @@ body{
 
 .main{
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
 }
 
@@ -20,4 +20,25 @@ h3{
 
 a{
     text-decoration: none;
+}
+
+.dashboard-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.btn-open-modal{
+    width: 48px;
+    height: 48px;
+    padding: 2px;
+    border: none;
+    border-radius: 50%;
+    align-self: flex-end;
+}
+
+.btn-open-modal:hover{
+    cursor: pointer;
+    border:solid 3px;
+    background-color: #ffc857;
+    box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
 }

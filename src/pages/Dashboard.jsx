@@ -34,6 +34,7 @@ const Dashboard = ({ paqueteList, robotList, selectedItem, onToggleItem }) => {
     } else {
       // Paquete: coordenadas fijas según ID
       const packagesPositions = {
+        100: { x: 245, y: 200},
         111: { x: 245, y: 100 },
         222: { x: 280, y: 100 },
         333: { x: 450, y: 200 },

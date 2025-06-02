@@ -2,7 +2,7 @@
 import React from 'react';
 import Card from './Card.jsx';
 import './Styles/MapCard.css';
-import TargetIcon from '../assets/icons/TargetIcon.jsx';
+import TargetIcon from '../assets/icons/targeticon.jsx';
 
 const MapCard = ({ items, map, floorName, onPrev, onNext, onItemClick }) => {
   return (
