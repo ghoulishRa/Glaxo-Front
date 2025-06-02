@@ -16,6 +16,7 @@ import Inventory from './pages/Inventory.jsx';
 import Navbar from './components/NavBar.jsx';
 import PackagesNavBar from './components/PackagesNavBar.jsx';
 import DetailsPanel from './components/DetailsPanel.jsx';
+import LoginSignUp from './pages/Login.jsx';
 import AddPackageModal from './components/AddPackageModal.jsx';
 
 //Icons
@@ -65,6 +66,7 @@ const App = () => {
 
   return (
     <Router>
+
       <Navbar />
 
       <AddPackageModal
@@ -101,7 +103,7 @@ const App = () => {
                   className='btn-open-modal'
                   onClick= {() =>setShowAddModal(true)}
                 >
-                   <PlusIcon/>
+                   <PlusIcon/> 
                 </button>
               </main>
 
@@ -109,8 +111,6 @@ const App = () => {
             </div>
           }
         />
-
-        {/* ─────────────────────── Ruta Inventario ─────────────────────── */}
         <Route
           path="/inventario"
           element={
@@ -118,6 +118,17 @@ const App = () => {
               <Inventory
                 allPackages={paquetes}
                 addToSidebar={addSidebarPackage}
+              />
+            </div>
+          }
+        />
+
+        <Route
+          path="/login"
+          element={
+            <div className="main">
+              <LoginSignUp
+  
               />
             </div>
           }

@@ -15,17 +15,22 @@ const Navbar = () => {
         <ul className="navbar-links">
           <li className='nav-link'>
             <Link className={`nav-ref ${location.pathname === '/' ? 'active' : ''}`}
-             to="/">Inicio</Link>
+              to="/">Inicio</Link>
           </li>
           <li className='nav-link'>
-            <Link className={`nav-ref ${location.pathname === '/inventario' ? 'active' : ''}`} to="/inventario">Inventario</Link>
+            <Link className={`nav-ref ${location.pathname === '/inventario' ? 'active' : ''}`} 
+              to="/inventario">Inventario</Link>
           </li>
           <li className='nav-link'>
-            <Link className={`nav-ref ${location.pathname === '/colaboradores' ? 'active' : ''}`} to="/colaboradores">Colaboradores</Link>
+            <Link className={`nav-ref ${location.pathname === '/colaboradores' ? 'active' : ''}`} 
+              to="/colaboradores">Colaboradores</Link>
           </li>
         </ul>
       </nav>
-      <button className='nav-btn'>Log In</button>
+      <button className='nav-btn'>
+        <Link className='nv-btn-title' 
+          to="/login"> login </Link>
+      </button>
     </header>
   );
 };

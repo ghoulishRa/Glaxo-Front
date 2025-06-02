@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './LoginSignup.css';
+import './styles/LoginSignUp.css';
 
-import email_icon from '../Assets/email.png';
-import password_icon from '../Assets/password.png';
-import logo_icon from '../Assets/logo1.png';
 
 const LoginSignUp = ({ onLoginSuccess }) => {
   const [email, setEmail] = useState("");
@@ -13,7 +10,7 @@ const LoginSignUp = ({ onLoginSuccess }) => {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post('http://192.168.1.20:3000/user/login', {
+      const res = await axios.post('http://localhost:3000/user/login', {
         correo: email,
         password_hash: password,
       });
@@ -23,11 +20,11 @@ const LoginSignUp = ({ onLoginSuccess }) => {
         setMensaje("✅ Bienvenido");
         onLoginSuccess(rol);      // 👈 le pasa el rol al componente padre
       } else {
-        setMensaje(`❌ ${res.data.msg}`);
+        setMensaje(`${res.data.msg}`);
       }
     } catch (err) {
-      console.error("🚨 Error de login:", err);
-      setMensaje("❌ Error al conectar con el servidor");
+      console.error("Error de login:", err);
+      setMensaje("Error al conectar con el servidor");
     }
   };
 

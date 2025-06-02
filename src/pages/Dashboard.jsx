@@ -32,15 +32,14 @@ const Dashboard = ({ paqueteList, robotList, selectedItem, onToggleItem }) => {
       };
       mapItemsArray.push({ ...selectedItem, position: pos });
     } else {
-      // Paquete: coordenadas fijas según ID
       const packagesPositions = {
-        100: { x: 245, y: 200},
-        111: { x: 245, y: 100 },
-        222: { x: 280, y: 100 },
-        333: { x: 450, y: 200 },
-        
+        1: { x: 260, y: 85},
+        2: { x: 225, y: 85 },
+        3: { x: 295, y: 85 },
       };
-      const pos = packagesPositions[selectedItem.id] || { x: 50, y: 50 };
+
+      const ubicacionNum = parseInt(selectedItem.ubicacion, 10);
+      const pos = packagesPositions[ubicacionNum] || { x: 50, y: 50 };
       mapItemsArray.push({ ...selectedItem, position: pos });
     }
   }

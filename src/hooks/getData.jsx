@@ -30,6 +30,7 @@ export const useFetchData = (payload, path) => {
           entrada: p.entrada || p.entrada,
           salida : p.salida || p.salida,
           stock_total: p.stock_total || p.stock_total,
+          ubicacion: p.ubicacion || p.ubi,
           type: 'package'
         })));
 
