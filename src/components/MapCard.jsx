@@ -6,7 +6,7 @@ import TargetIcon from '../assets/icons/targeticon.jsx';
 
 const MapCard = ({ items, map, floorName, onPrev, onNext, onItemClick }) => {
   return (
-    <Card title="Mapa" description={floorName}>
+    <Card description={floorName}>
       <div className='map-container'>
         <button className="maps-btn" onClick={onPrev}>
           <i className="bx bx-caret-left bx-sm"></i>

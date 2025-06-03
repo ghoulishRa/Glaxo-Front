@@ -6,34 +6,48 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
+  Navigate
 } from 'react-router-dom';
 
 // Vistas
 import Dashboard from './pages/Dashboard.jsx';
 import Inventory from './pages/Inventory.jsx';
+import LoginSignUp from './pages/Login.jsx';
 
 // Componentes
 import Navbar from './components/NavBar.jsx';
 import PackagesNavBar from './components/PackagesNavBar.jsx';
 import DetailsPanel from './components/DetailsPanel.jsx';
-import LoginSignUp from './pages/Login.jsx';
 import AddPackageModal from './components/AddPackageModal.jsx';
 
-//Icons
-
-import PlusIcon from './assets/icons/plusIcon.jsx';
+// Context
+import { UserProvider, useUser } from './components/context/ContextUser.jsx';
 
 // Hooks
 import { useFetchData } from './hooks/getData.jsx';
 
+//icons
+import PlusIcon from './assets/icons/plusIcon.jsx'
+
+function ProtectedRoute({ children, roles }) {
+  const { user } = useUser();
+
+  if (!user) return <Navigate to="/login" />;
+
+  if (roles && !roles.includes(user.rol)) {
+    return <Navigate to="/login" />;
+  }
+  return children;
+}
+
 const App = () => {
- 
+  const { user, login } = useUser();
+
   const robots = [
     { id: 4004, type: 'robot', nombre: 'Robot 1', status: 'activo', ubicacion: 'Almacén 1' },
   ];
 
-  
-  const { paquetes, loading, error } = useFetchData('all', '/paquetes');
+  const { paquetes, loading, error } = useFetchData('1', '/pkg/get_recent');
   const [selectedItem, setSelectedItem] = useState(null);
   const [sidebarPackages, setSidebarPackages] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -45,7 +59,7 @@ const App = () => {
       setSelectedItem(item);
     }
   };
-  
+
   const addSidebarPackage = (pkg) => {
     setSidebarPackages((prev) => {
       if (prev.some((p) => p.id === pkg.id)) {
@@ -54,7 +68,7 @@ const App = () => {
       return [...prev, pkg];
     });
   };
- 
+
   const closeRightSidebar = () => {
     setSelectedItem(null);
   };
@@ -66,9 +80,9 @@ const App = () => {
 
   return (
     <Router>
+      <Navbar/>
 
-      <Navbar />
-
+      {/* Modal para agregar paquete */}
       <AddPackageModal
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
@@ -79,57 +93,71 @@ const App = () => {
       />
 
       <Routes>
-        
         <Route
           path="/"
           element={
-            <div className="main" >
-              
-              <PackagesNavBar
-                paquete={sidebarPackages}
-                robot={robots}
-                onSelectItem={handleToggleItem}
-              />
-
-              <main className='dashboard-wrapper'>
-                <Dashboard
-                  paqueteList={sidebarPackages}
-                  robotList={robots}
-                  selectedItem={selectedItem}
-                  onToggleItem={handleToggleItem}
+            <ProtectedRoute>
+              <div className="main">
+                <PackagesNavBar
+                  paquete={sidebarPackages}
+                  robot={robots}
+                  onSelectItem={handleToggleItem}
                 />
-               
-                <button
-                  className='btn-open-modal'
-                  onClick= {() =>setShowAddModal(true)}
-                >
-                   <PlusIcon/> 
-                </button>
-              </main>
 
-              <DetailsPanel item={selectedItem} onClose={closeRightSidebar} />
-            </div>
+                <main className="dashboard-wrapper">
+                  <Dashboard
+                    paqueteList={sidebarPackages}
+                    robotList={robots}
+                    selectedItem={selectedItem}
+                    onToggleItem={handleToggleItem}
+                  />
+
+                  <button
+                    className="btn-open-modal"
+                    onClick={() => setShowAddModal(true)}
+                  >
+                    Ver paquete activo
+                    <span className="plus-icon-wrapper">
+                      <PlusIcon className="plus-icon" />
+                    </span>
+                  </button>
+                </main>
+                <DetailsPanel item={selectedItem} onClose={closeRightSidebar} />
+              </div>
+            </ProtectedRoute>
           }
         />
+
         <Route
           path="/inventario"
           element={
-            <div className="main">
-              <Inventory
-                allPackages={paquetes}
-                addToSidebar={addSidebarPackage}
-              />
-            </div>
+            <ProtectedRoute>
+              <div className="main">
+                <Inventory
+                  allPackages={paquetes}
+                  addToSidebar={addSidebarPackage}
+                />
+              </div>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/colaboradores"
+          element={
+            <ProtectedRoute roles={['admin']}>
+              <div className="main">
+                <h2>Administrar Colaboradores</h2>
+              </div>
+            </ProtectedRoute>
           }
         />
 
         <Route
           path="/login"
           element={
-            <div className="main">
-              <LoginSignUp
-  
-              />
+            <div>
+              <LoginSignUp />
             </div>
           }
         />
@@ -138,4 +166,10 @@ const App = () => {
   );
 };
 
-export default App;
+export default function WrappedApp() {
+  return (
+    <UserProvider>
+      <App />
+    </UserProvider>
+  );
+}

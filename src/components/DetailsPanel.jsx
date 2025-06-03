@@ -8,7 +8,7 @@ const DetailsPanel = ({ item, onClose }) => {
   }
 
   return (
-  
+    
 
     <aside className={`details-panel open`}>
       <div className="details-header">

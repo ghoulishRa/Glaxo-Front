@@ -3,8 +3,18 @@
 /* ──────────────────────────────────────────────────
    1) Contenedor principal (Box)
    ────────────────────────────────────────────────── */
+
+
+.inventory{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+}  
 .inventory-container {
-  width: 80%;
+  width: 95%;
   height: auto;
   margin: 16px auto;
   border-radius: 5px;
@@ -75,12 +85,14 @@
 }
 
 .inventory-th{
-  font-family: 'arvo', Cambria;
+  font-family: 'Poppins', Cambria;
   text-align: center;
   vertical-align: middle;
 }
 
 .inventory-tr{
+  font-family: 'Poppins';
+  font-size: 14px;
   color:#000
 }
 
@@ -115,7 +127,10 @@
 
 }
 
+.inventory-tr:nth-child(even):hover {
+  background-color: #e0e0e0;
 
+}
 /* Opcional: si quieres que la tabla se vea un poco más compacta en móviles */
 @media (max-width: 640px) {
   .inventory-table {
@@ -129,6 +144,7 @@
   align-items: flex-start;
   margin-top: 16px;
   gap: 12px;
+  font-family: "Poppins", sans-serif;
 }
 
 @media (min-width: 600px) {
@@ -146,7 +162,7 @@
 }
 
 .pagination-info label {
-  font-size: 0.875rem;
+  font-size: 12px;
 }
 
 .pagination-select {
@@ -166,6 +182,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  
 }
 
 .pagination-button {
@@ -184,6 +201,8 @@
 }
 
 .pagination-text {
-  font-size: 0.875rem;
+  font-size: 13px;
   color: #333;
+  font-family: "Poppins", sans-serif;
+
 }

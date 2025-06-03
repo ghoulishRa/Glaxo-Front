@@ -12,10 +12,10 @@ body{
 }
 
 h1, h2{
-    font-family: "Alfa Slab One", sans-serif;
+    font-family: "Poppins", sans-serif;
 }
 h3{
-    font-family: "Arvo", sans-serif ;
+    font-family: 'Poppins', sans-serif ;
 }
 
 a{
@@ -28,12 +28,18 @@ a{
 }
 
 .btn-open-modal{
-    width: 48px;
+    width: 200px;
     height: 48px;
     padding: 2px;
     border: none;
-    border-radius: 50%;
+    border-radius: 20px;
     align-self: flex-end;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #e35327;
+    background-color: #fff;
+
 }
 
 .btn-open-modal:hover{
@@ -41,4 +47,9 @@ a{
     border:solid 3px;
     background-color: #ffc857;
     box-shadow: 4px 0 20px rgba(0, 0, 0, 0.3);
+    color:#023047;
+}
+
+.btn-open-model:hover .plus-modal{
+    fill: #023047;
 }

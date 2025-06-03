@@ -1,9 +1,13 @@
+// src/components/LoginSignUp.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 import './styles/LoginSignUp.css';
+import { useUser } from '../components/context/ContextUser'; 
+import { useNavigate } from 'react-router-dom';
 
-
-const LoginSignUp = ({ onLoginSuccess }) => {
+const LoginSignUp = () => {
+  const { login } = useUser();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [mensaje, setMensaje] = useState("");
@@ -16,11 +20,13 @@ const LoginSignUp = ({ onLoginSuccess }) => {
       });
 
       if (res.data.result === "True") {
-        const rol = res.data.rol; // 👈 obtiene el rol del backend
-        setMensaje("✅ Bienvenido");
-        onLoginSuccess(rol);      // 👈 le pasa el rol al componente padre
+        const rol = res.data.rol;
+        login({email, rol});
+        navigate('/');
+        setMensaje("Bienvenido");
+                 
       } else {
-        setMensaje(`${res.data.msg}`);
+        setMensaje(res.data.msg || "Usuario o contraseña inválidos");
       }
     } catch (err) {
       console.error("Error de login:", err);
@@ -28,49 +34,34 @@ const LoginSignUp = ({ onLoginSuccess }) => {
     }
   };
 
-  return (
-    <div className='container'>
-      <div className='header'>
-        <div className="text">Login</div>
-        <img src={logo_icon} alt="" />
-        <div className="underline"></div>
+    return (
+    <div className="login-page">
+      <h2>Iniciar Sesión</h2>
+      <div className="login-input">
+        <span className="login-icon">✉️</span>
+        <input
+          type="email"
+          placeholder="Correo"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
       </div>
-
-      <div className="inputs">
-        <div className="input">
-          <img src={email_icon} alt="" />
-          <input
-            type="email"
-            placeholder="Correo de colaborador o empresa"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-
-        <div className="input">
-          <img src={password_icon} alt="" />
-          <input
-            type="password"
-            placeholder="Contraseña"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
+      <div className="login-input">
+        <span className="login-icon">🔒</span>
+        <input
+          type="password"
+          placeholder="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
       </div>
-
-      {mensaje && (
-        <p style={{ color: "red", textAlign: "center", marginTop: 10 }}>{mensaje}</p>
-      )}
-
-      <div
-        className="submit"
-        style={{ marginTop: '20px', marginLeft: 'auto', marginRight: 'auto' }}
-        onClick={handleLogin}
-      >
+      {mensaje && <p className="login-message">{mensaje}</p>}
+      <button className="login-submit-btn" onClick={handleLogin}>
         Ingresar
-      </div>
+      </button>
     </div>
   );
+
 };
 
 export default LoginSignUp;
