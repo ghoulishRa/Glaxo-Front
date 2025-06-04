@@ -12,8 +12,9 @@
 
 /* Título del formulario */
 .login-page h2 {
+  font-family: "DM Serif text";
   margin-bottom: 24px;
-  font-size: 2rem;
+  font-size: 36px;
   color: #ffc857;
 }
 
@@ -42,12 +43,6 @@
   padding-left: 8px;
 }
 
-/* Ícono dentro del campo de entrada */
-.login-icon {
-  font-size: 1.2rem;
-  color: #888;
-}
-
 /* Mensaje de error o alerta */
 .login-message {
   margin: 8px 0 16px;
@@ -61,10 +56,8 @@
   width: 100%;
   max-width: 200px;
   padding: 10px 16px;
-  background-color: #3498db;
+  background-color: #e35327;
   color: #fff;
-  font-size: 1rem;
-  font-weight: 500;
   border: none;
   border-radius: 6px;
   cursor: pointer;

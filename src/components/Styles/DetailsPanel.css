@@ -51,10 +51,31 @@
   padding: 20px;
   font-family: "Arvo", sans-serif;
   color: #333;
+  display: flex;
+  justify-content: center;
+  flex-direction: column ;
+  align-items: center;
 }
 
 .details-content p {
   margin: 10px 0;
+}
+
+.toggle-detail-btn{
+  border:none ;
+  border-radius: 5px;
+  align-self: center;
+  color: #fff;
+  background-color: #e35327;
+}
+
+.toggle-detail-btn:hover{
+
+  cursor: pointer;
+  background-color: #023047;
+  border: solid #000;
+  color: #ffc857;
+
 }
 
 /* En pantallas pequeñas, tal vez queramos ocupar el 100% de ancho */
@@ -63,3 +84,5 @@
     width: 100%;
   }
 }
+
+

@@ -13,6 +13,7 @@ import {
 import Dashboard from './pages/Dashboard.jsx';
 import Inventory from './pages/Inventory.jsx';
 import LoginSignUp from './pages/Login.jsx';
+import Operadores from './pages/Operadores.jsx'
 
 // Componentes
 import Navbar from './components/NavBar.jsx';
@@ -47,10 +48,11 @@ const App = () => {
     { id: 4004, type: 'robot', nombre: 'Robot 1', status: 'activo', ubicacion: 'Almacén 1' },
   ];
 
-  const { paquetes, loading, error } = useFetchData('1', '/pkg/get_recent');
+  const { paquetes, loading, error } = useFetchData('5', '/pkg/get_recent');
   const [selectedItem, setSelectedItem] = useState(null);
   const [sidebarPackages, setSidebarPackages] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [detailMode, setDetailMode] = useState(false);
 
   const handleToggleItem = (item) => {
     if (selectedItem && selectedItem.id === item.id) {
@@ -110,19 +112,24 @@ const App = () => {
                     robotList={robots}
                     selectedItem={selectedItem}
                     onToggleItem={handleToggleItem}
+                    detailMode={detailMode}
                   />
 
                   <button
                     className="btn-open-modal"
                     onClick={() => setShowAddModal(true)}
                   >
-                    Ver paquete activo
                     <span className="plus-icon-wrapper">
                       <PlusIcon className="plus-icon" />
                     </span>
                   </button>
                 </main>
-                <DetailsPanel item={selectedItem} onClose={closeRightSidebar} />
+                <DetailsPanel 
+                  item={selectedItem} 
+                  onClose={closeRightSidebar}
+                  detailMode={detailMode}
+                  setDetailMode={setDetailMode}
+                />
               </div>
             </ProtectedRoute>
           }
@@ -143,11 +150,11 @@ const App = () => {
         />
 
         <Route
-          path="/colaboradores"
+          path="/operadores"
           element={
             <ProtectedRoute roles={['admin']}>
               <div className="main">
-                <h2>Administrar Colaboradores</h2>
+                <Operadores/>
               </div>
             </ProtectedRoute>
           }

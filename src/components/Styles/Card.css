@@ -37,13 +37,14 @@
   align-self: flex-start; 
 }
 .card-description {
-  font-size: 1.4rem;
+  font-family: "DM Serif Text";
+  font-size: 25px;
   margin: 5px;
-  font-family: 'Arvo', 'Lucida Sans Unicode';
 }
 
 .card-title, .card-description{
   color: #e35327;
+
 }
 
 .card-body {

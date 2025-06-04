@@ -5,6 +5,10 @@ import './styles/LoginSignUp.css';
 import { useUser } from '../components/context/ContextUser'; 
 import { useNavigate } from 'react-router-dom';
 
+//icons
+import EnvelopeAltIcon from '../assets/icons/mailIcon';
+import LockKeyholeIcon from '../assets/icons/lockIcon';
+
 const LoginSignUp = () => {
   const { login } = useUser();
   const navigate = useNavigate();
@@ -36,9 +40,12 @@ const LoginSignUp = () => {
 
     return (
     <div className="login-page">
-      <h2>Iniciar Sesión</h2>
+      <h2>Ingresar</h2>
       <div className="login-input">
-        <span className="login-icon">✉️</span>
+        <span className="login-icon">
+          <EnvelopeAltIcon/>
+
+        </span>
         <input
           type="email"
           placeholder="Correo"
@@ -47,7 +54,9 @@ const LoginSignUp = () => {
         />
       </div>
       <div className="login-input">
-        <span className="login-icon">🔒</span>
+        <span className="login-icon">
+          <LockKeyholeIcon/>
+        </span>
         <input
           type="password"
           placeholder="Contraseña"

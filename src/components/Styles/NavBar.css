@@ -9,7 +9,10 @@ header{
 }
 
 .nav-title{
+    
     color: #ffc857; 
+    justify-content: center;
+    align-items: center;
 }
 
 .nav-link, .nav-ref, button{

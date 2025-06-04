@@ -3,6 +3,7 @@ import React from 'react';
 import './Styles/Navbar.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useUser } from './context/ContextUser.jsx';
+import Logo from '../assets/logo.png'
 
 const Navbar = () => {
   const location = useLocation();
@@ -12,7 +13,7 @@ const Navbar = () => {
   return (
     <header className="navbar">
       <div className="navbar-title">
-        <h2 className="nav-title">GLAXO</h2>
+        <img src={Logo} alt="Logo" className="nav-logo" width={"50px"} />
       </div>
 
       <nav>
@@ -38,10 +39,10 @@ const Navbar = () => {
               {user.rol === 'admin' && (
                 <li className="nav-link">
                   <Link
-                    className={`nav-ref ${location.pathname === '/colaboradores' ? 'active' : ''}`}
-                    to="/colaboradores"
+                    className={`nav-ref ${location.pathname === '/operadores' ? 'active' : ''}`}
+                    to="/operadores"
                   >
-                    Colaboradores
+                    Operadores
                   </Link>
                 </li>
               )}

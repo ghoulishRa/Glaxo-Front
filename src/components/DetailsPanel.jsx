@@ -1,15 +1,44 @@
 // src/components/DetailsPanel.jsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import './Styles/DetailsPanel.css';
 
-const DetailsPanel = ({ item, onClose }) => {
+const DetailsPanel = ({ item, onClose, detailMode, setDetailMode }) => {
+  const [locationDetails, setLocationDetails] = useState(null);
+  const [loadingLocation, setLoadingLocation] = useState(false);
+  const [errorLocation, setErrorLocation] = useState(null);
+
+  useEffect(() => {
+    // Si cambiamos detailMode o item, reseteamos estado de ubicación
+    setLocationDetails(null);
+    setErrorLocation(null);
+    setLoadingLocation(false);
+
+    if (item && item.type === 'package' && detailMode) {
+      // Solamente hacemos fetch si estamos en modo detalle y es paquete
+      const fetchLocation = async () => {
+        setLoadingLocation(true);
+        try {
+          const response = await axios.get(
+            `http://localhost:3000/get/ubicacion/${item.ubicacion}`
+          );
+          setLocationDetails(response.data);
+        } catch (err) {
+          console.error('Error al obtener detalles de ubicación:', err);
+          setErrorLocation('No se pudo cargar la ubicación');
+        } finally {
+          setLoadingLocation(false);
+        }
+      };
+      fetchLocation();
+    }
+  }, [item, detailMode]);
+
   if (!item) {
     return <aside className="details-panel" />;
   }
 
   return (
-    
-
     <aside className={`details-panel open`}>
       <div className="details-header">
         <button className="close-btn" onClick={onClose}>
@@ -27,23 +56,38 @@ const DetailsPanel = ({ item, onClose }) => {
 
         {item.type === 'package' && (
           <>
-            <p><strong>Ubicación:</strong> {item.ubicacion}</p>
+            {detailMode && (
+              <>
+                {loadingLocation && <p>Cargando ubicación...</p>}
+                {errorLocation && (
+                  <p style={{ color: 'red' }}>{errorLocation}</p>
+                )}
+                {locationDetails && (
+                  <div className="location-details">
+                    <p><strong>Rack:</strong> {locationDetails.rack}</p>
+                    <p><strong>Nivel:</strong> {locationDetails.nivel}</p>
+                    <p><strong>Celda:</strong> {locationDetails.celda}</p>
+                  </div>
+                )}
+              </>
+            )}
+
+            <button
+              className="toggle-detail-btn"
+              onClick={() => setDetailMode(!detailMode)}
+            >
+              {detailMode ? 'Volver a mapa' : 'Ver detalle'}
+            </button>
           </>
         )}
 
         {item.type === 'robot' && (
           <>
             <p><strong>Ubicación:</strong> {item.ubicacion}</p>
-        
           </>
         )}
       </div>
     </aside>
-
-    
-
-
-
   );
 };
 
