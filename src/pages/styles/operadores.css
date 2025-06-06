@@ -2,10 +2,14 @@
 
 .op-card-container {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-  padding: 2rem;
+  margin: 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+.op-card-wrapper{
+  display: flex;
+  flex-direction: column;
+
 }
 
 .op-card {
@@ -41,12 +45,22 @@
   padding: 0 1.5rem;
 }
 
+span{
+  color: #000;
+  font-weight: bold;
+}
+
 .op-card-body.expanded {
+  justify-content: center;
+  align-items: center;
   padding: 1rem 1.5rem;
   max-height: 500px; /* Ajusta según el contenido */
 }
 
 .op-card-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-bottom: 0.5rem;
   color: #333;
   font-size: 0.95rem;

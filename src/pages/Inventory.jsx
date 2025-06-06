@@ -34,7 +34,7 @@ export default function Inventario() {
     setError(null);
 
     axios
-      .get('http://localhost:3000/stock/get')
+      .get('http://192.168.1.20:3000/stock/get')
       .then((response) => {
         const transformed = response.data.map((item) => ({
           sku: item.sku,

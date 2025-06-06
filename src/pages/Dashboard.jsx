@@ -6,17 +6,15 @@ import { useEmployeeSocket } from '../hooks/positionSocket.jsx';
 
 import Map1 from '../assets/FirstFloor.svg';
 import Map2 from '../assets/FirstFloor.svg';
-import Map3 from '../assets/FirstFloor.svg';
-import MapDetail from '../assets/Rack1-1.svg'; // Imagen para detailMode
+import MapDetail from '../assets/Rack1-1.svg'; 
 
 const maps = [
   { id: 1, name: 'Primer Piso', svg: Map1},
-  { id: 2, name: 'Segundo Piso', svg: Map2 },
-  { id: 3, name: 'Tercer Piso', svg: Map3 },
+  //{ id: 2, name: 'Live Map', svg: Map2 },
 ];
 
 const imageScale = 18.4;
-const originP = { x: 245, y: 100 };
+const originP = { x: 225, y: 95 };
 
 const Dashboard = ({
   paqueteList,
@@ -41,7 +39,7 @@ const Dashboard = ({
 
       try {
         const response = await axios.get(
-          `http://localhost:3000/get/ubicacion/${selectedItem.ubicacion}`
+          `http://192.168.1.20:3000/location/get/${selectedItem.ubicacion}`
         );
         setLocationDetails(response.data); // { rack, nivel, celda }
       } catch (err) {
@@ -65,12 +63,16 @@ const Dashboard = ({
         x: originP.x + robotPosition.y * imageScale,
         y: originP.y + robotPosition.x * imageScale,
       };
+      console.log('Dibujando robot en posición:', pos);
       setMapItemsArray([{ ...selectedItem, position: pos }]);
     } else {
       // selectedItem es paquete
       if (detailMode) {
-        // 1️⃣ Extraemos la celda de locationDetails
+      
         const celdaNum = locationDetails?.celda;
+        console.log( "celda", locationDetails.celda )
+        console.log( "rack", locationDetails.rack )
+        console.log( "rack ", locationDetails.nivel )
 
         let pos;
         if (typeof celdaNum === 'number') {

@@ -8,9 +8,9 @@
             <aside className="sidebar">
                 <div className='packages-status'>
                     <div className="sidebar-title">
-                        <span className="title-icon">
+                        <div className="title-icon">
                         <i className='bx bx-package bx-sm'></i>
-                        </span>
+                        </div>
                         <h3>Paquetes</h3>
                     </div>
                     <ul className="package-list">
@@ -20,10 +20,10 @@
                             className="side-ref"
                             onClick={() => onSelectItem(item)}
                             >
-                            <span className="item-icon">
+                            <div className="item-icon">
                                 <i className='bx bx-box'></i>
-                            </span>
-                            <span className="package-name">{item.nombre}</span>
+                            </div>
+                            <div className="package-name">{item.nombre}</div>
                             </button>
                         </li>
                         ))} 
@@ -31,10 +31,10 @@
                 </div>
                 <div className='robots-status'>
                     <div className="sidebar-title">
-                        <span className="title-icon">
+                        <div className="title-icon">
                         <i className='bx bx-car bx-sm'></i>
-                        </span>
-                        <h3>Robots</h3>
+                        </div>
+                        <h3>Paquetes Rastreables</h3>
                     </div>
                     <ul className="package-list">
                         {robot.map(item => (
@@ -43,10 +43,10 @@
                             className="side-ref"
                             onClick={() => onSelectItem(item)}
                             >
-                            <span className="item-icon">
+                            <div className="item-icon">
                                 <i className='bx bx-bug bx'></i>
-                            </span>
-                            <span className="package-name">{item.nombre}</span>
+                            </div>
+                            <div className="package-name">{item.nombre}</div>
                             </button>
                         </li>
                         ))} 

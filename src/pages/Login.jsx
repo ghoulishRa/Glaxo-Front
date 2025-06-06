@@ -18,10 +18,12 @@ const LoginSignUp = () => {
 
   const handleLogin = async () => {
     try {
-      const res = await axios.post('http://localhost:3000/user/login', {
+      const res = await axios.post('http://192.168.1.20:3000/user/login', {
         correo: email,
         password_hash: password,
       });
+
+      console.log('login res', res);
 
       if (res.data.result === "True") {
         const rol = res.data.rol;

@@ -45,7 +45,7 @@ const App = () => {
   const { user, login } = useUser();
 
   const robots = [
-    { id: 4004, type: 'robot', nombre: 'Robot 1', status: 'activo', ubicacion: 'Almacén 1' },
+    { id: 4004, type: 'robot', nombre: 'Paquete Movil', status: 'activo'},
   ];
 
   const { paquetes, loading, error } = useFetchData('5', '/pkg/get_recent');
@@ -75,7 +75,7 @@ const App = () => {
     setSelectedItem(null);
   };
 
-  const activePackages = paquetes.filter((p) => p.status === 'activo');
+  const activePackages = paquetes.filter((p) => p.status === 2);
 
   if (loading) return <p>Cargando datos...</p>;
   if (error) return <p>Error cargando datos: {error.message}</p>;
@@ -152,7 +152,7 @@ const App = () => {
         <Route
           path="/operadores"
           element={
-            <ProtectedRoute roles={['admin']}>
+            <ProtectedRoute roles={['Administrador']}>
               <div className="main">
                 <Operadores/>
               </div>

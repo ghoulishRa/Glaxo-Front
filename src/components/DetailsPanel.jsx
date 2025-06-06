@@ -20,8 +20,9 @@ const DetailsPanel = ({ item, onClose, detailMode, setDetailMode }) => {
         setLoadingLocation(true);
         try {
           const response = await axios.get(
-            `http://localhost:3000/get/ubicacion/${item.ubicacion}`
+            `http://192.168.1.20:3000/location/get/${item.ubicacion}`
           );
+          console.log(response.data)
           setLocationDetails(response.data);
         } catch (err) {
           console.error('Error al obtener detalles de ubicación:', err);
@@ -81,11 +82,11 @@ const DetailsPanel = ({ item, onClose, detailMode, setDetailMode }) => {
           </>
         )}
 
-        {item.type === 'robot' && (
+        {/* {item.type === 'robot' && (
           <>
             <p><strong>Ubicación:</strong> {item.ubicacion}</p>
           </>
-        )}
+        )} */}
       </div>
     </aside>
   );

@@ -17,13 +17,13 @@ export const useFetchData = (payload, path) => {
   useEffect(() => {
     const fetchAll = async () => {
       try {
-        const paquetesData = await get('http://localhost:3000', path, payload);
+        const paquetesData = await get('http://192.168.1.20:3000', path, payload);
 
         setPaquetes(paquetesData.map(p => ({
           id: p.id_paquete || p.id,
           sku: p.sku || p.sku,
           nombre: p.producto || p.nombre,
-          status: p.status || p.status,
+          status: p.estado || p.status,
           institucion: p.institucion || p.institucion,
           descripcion: p.descripcion || p.descripcion,
           stock_inicial : p.stock_inicial || p.stock_inicial,

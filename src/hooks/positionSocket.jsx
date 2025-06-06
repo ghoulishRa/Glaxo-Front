@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react';
 import io from 'socket.io-client';
 
-const SOCKET_URL = 'http://192.168.1.20:3002'; // la URL de tu servidor Socket.IO
+const SOCKET_URL = 'http://192.168.1.20:3000'; // la URL de tu servidor Socket.IO
 
 /**
  * useEmployeeSocket:

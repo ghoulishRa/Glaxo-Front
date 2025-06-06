@@ -36,7 +36,7 @@ const Navbar = () => {
                   Inventario
                 </Link>
               </li>
-              {user.rol === 'admin' && (
+              {user.rol === 'Administrador' && (
                 <li className="nav-link">
                   <Link
                     className={`nav-ref ${location.pathname === '/operadores' ? 'active' : ''}`}
