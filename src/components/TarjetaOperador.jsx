@@ -1,6 +1,7 @@
 // src/Components/TarjetaOperador.jsx
 import React from "react";
-import "./Styles/TarjetaOperador.css";
+import './Styles/TarjetaOperador.css'
+
 
 export default function TarjetaOperador({ operador, isExpanded, onToggle, onActivate }) {
   const handleActivate = async (e) => {
@@ -34,31 +35,31 @@ export default function TarjetaOperador({ operador, isExpanded, onToggle, onActi
       <div className={`op-card-body ${isExpanded ? "expanded" : ""}`}>
         <div className="op-card-info">
           <span>
-            Correo:
+            Correo: 
           </span> 
           {operador.correo}
         </div>
         <div className="op-card-info">
           <span>
-            Teléfono:
+            Teléfono: 
           </span>
           {operador.telefono}
         </div>
         <div className="op-card-info">
           <span>
-           Puesto: 
+           Puesto:  
           </span>
           {operador.puesto}
         </div>
         <div className="op-card-info">
           <span>
-            Institución: 
+            Institución:  
           </span>
           {operador.institucion}
         </div>
         <div className="op-card-info">
           <span>
-            Fecha alta:
+            Fecha alta: 
           </span>
           {new Date(operador.fecha_alta).toLocaleDateString()}
         </div>

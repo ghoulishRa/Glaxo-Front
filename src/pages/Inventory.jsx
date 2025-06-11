@@ -5,6 +5,8 @@ import CodeIcon from '../assets/icons/codeIcon';
 import BuildingsIcon from '../assets/icons/buildingIcon';
 import './styles/inventory.css';
 
+import { getInventario } from '../api/getInventoryApi';
+
 const columns = [
   { id: 'sku', label: 'SKU' },
   { id: 'producto', label: 'Producto' },
@@ -14,29 +16,27 @@ const columns = [
 ];
 
 export default function Inventario() {
-  // 1) Estados para los datos, loading y error
-  const [rows, setRows] = useState([]);               // Datos crudos transformados
-  const [filteredRows, setFilteredRows] = useState([]); // Filas tras aplicar filtros
+  
+  const [rows, setRows] = useState([]);               
+  const [filteredRows, setFilteredRows] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // 2) Estados para filtros
+  
   const [skuFilter, setSkuFilter] = useState('');
   const [institucionFilter, setInstitucionFilter] = useState('');
 
-  // 3) Estados para paginación
+  
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  // 4) Fetch de datos (solo al montar el componente)
   useEffect(() => {
     setLoading(true);
     setError(null);
 
-    axios
-      .get('http://192.168.1.20:3000/stock/get')
-      .then((response) => {
-        const transformed = response.data.map((item) => ({
+    getInventario()
+      .then((data) => {
+        const transformed = data.map((item) => ({
           sku: item.sku,
           producto: item.producto,
           descripcion: item.descripcion,
@@ -62,8 +62,13 @@ export default function Inventario() {
     }
 
     const filtro = rows.filter((p) => {
-      const skuMatch = p.sku.toString().toLowerCase().includes(skuFilter.toLowerCase());
-      const institucionMatch = p.institucion.toLowerCase().includes(institucionFilter.toLowerCase());
+      const skuMatch = p.sku.
+        toString().
+        toLowerCase().
+        includes(skuFilter.toLowerCase());
+      const institucionMatch = p.institucion
+        .toLowerCase()
+        .includes(institucionFilter.toLowerCase());
       return skuMatch && institucionMatch;
     });
 
@@ -71,7 +76,6 @@ export default function Inventario() {
     setPage(0);
   }, [rows, skuFilter, institucionFilter, loading, error]);
 
-  // 6) Handlers de paginación
   const handlePrevPage = () => {
     setPage((p) => Math.max(p - 1, 0));
   };
@@ -86,13 +90,11 @@ export default function Inventario() {
     setPage(0);
   };
 
-  // 7) Filas que se mostrarán en la página actual
   const paginatedRows = filteredRows.slice(
     page * rowsPerPage,
     page * rowsPerPage + rowsPerPage
   );
 
-  // 8) Renderizado condicional: loading / error
   if (loading) {
     return (
       <div className="inventory-container">
@@ -109,12 +111,12 @@ export default function Inventario() {
     );
   }
 
-  // 9) JSX principal
+
   return (
     <div className="inventory">
-      {/* Filtros */}
+  
       <div className="inventory-filters">
-        {/* Filtro por SKU */}
+        
         <div className="input-wrapper">
           <input
             type="text"
@@ -125,8 +127,6 @@ export default function Inventario() {
           />
           <CodeIcon className="input-icon" />
         </div>
-
-        {/* Filtro por Institución */}
         <div className="input-wrapper">
           <input
             type="text"
@@ -140,7 +140,7 @@ export default function Inventario() {
       </div>
 
       <div className="inventory-container">
-        {/* Tabla */}
+        
         <div className="inventory-table-wrapper">
           <table className="inventory-table">
             <thead>
@@ -178,8 +178,6 @@ export default function Inventario() {
                         default:
                           break;
                       }
-
-                      // Si la columna es “stock_total” y es ≤ 20, aplicamos clase “low”
                       if (column.id === 'stock_total' && row.stock_total <= 20) {
                         return (
                           <td key={column.id} className="inventory-td-low">
@@ -206,8 +204,6 @@ export default function Inventario() {
             </tbody>
           </table>
         </div>
-
-        {/* Paginación */}
         <div className="inventory-pagination">
           <div className="pagination-info">
             <label>Filas por página:</label>

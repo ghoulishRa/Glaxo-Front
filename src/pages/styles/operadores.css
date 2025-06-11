@@ -20,6 +20,7 @@
   transition: all 0.3s ease;
   overflow: hidden;
   cursor: pointer;
+  
 }
 
 .op-card-header {
@@ -36,6 +37,7 @@
 .op-card-header span {
   font-size: 0.9rem;
   color: #888;
+  font-family: 'Poppins', sans-serif;
 }
 
 .op-card-body {
@@ -43,11 +45,6 @@
   overflow: hidden;
   transition: max-height 0.3s ease;
   padding: 0 1.5rem;
-}
-
-span{
-  color: #000;
-  font-weight: bold;
 }
 
 .op-card-body.expanded {
@@ -59,11 +56,18 @@ span{
 
 .op-card-info {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   margin-bottom: 0.5rem;
   color: #333;
   font-size: 0.95rem;
+  font-family: 'Poppins', sans-serif;
+}
+
+.op-card-info span{
+  font-weight: bold;
+  font-family: 'Poppins', sans-serif;
 }
 
 .op-card-status {

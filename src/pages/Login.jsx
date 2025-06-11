@@ -9,6 +9,9 @@ import { useNavigate } from 'react-router-dom';
 import EnvelopeAltIcon from '../assets/icons/mailIcon';
 import LockKeyholeIcon from '../assets/icons/lockIcon';
 
+//apis
+import { loginUser } from '../api/loginApi';
+
 const LoginSignUp = () => {
   const { login } = useUser();
   const navigate = useNavigate();
@@ -17,27 +20,27 @@ const LoginSignUp = () => {
   const [mensaje, setMensaje] = useState("");
 
   const handleLogin = async () => {
-    try {
-      const res = await axios.post('http://192.168.1.20:3000/user/login', {
-        correo: email,
+    setMensaje('');
+    try{
+      const data =  await loginUser({
         password_hash: password,
+        correo: email,
       });
-
-      console.log('login res', res);
-
-      if (res.data.result === "True") {
-        const rol = res.data.rol;
-        login({email, rol});
+      if (data.result === 'True') {
+        const rol = data.rol;
+        login ({
+          email, rol
+        });
         navigate('/');
-        setMensaje("Bienvenido");
-                 
-      } else {
-        setMensaje(res.data.msg || "Usuario o contraseña inválidos");
-      }
+        setMensaje('Bienvenido')
+      }else {
+        setMensaje(data.msg || 'Usuario o contraseña invalido');
+      };
     } catch (err) {
-      console.error("Error de login:", err);
-      setMensaje("Error al conectar con el servidor");
+      console.error('error al conectar con el servidor', err);
+      setMensaje('Error al conectar con el servidor');
     }
+    
   };
 
     return (

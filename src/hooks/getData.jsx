@@ -10,14 +10,13 @@ async function get(apiEndpoint, path, payload){
 export const useFetchData = (payload, path) => {
 
   const [paquetes, setPaquetes] = useState([]);
-  //const [robots, setRobots] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchAll = async () => {
       try {
-        const paquetesData = await get('http://192.168.1.20:3000', path, payload);
+        const paquetesData = await get('http://localhost:3000', path, payload);
 
         setPaquetes(paquetesData.map(p => ({
           id: p.id_paquete || p.id,

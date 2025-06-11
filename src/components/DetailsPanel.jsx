@@ -3,13 +3,14 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './Styles/DetailsPanel.css';
 
+import { exactLocation } from '../api/getExactLocationApi';
+
 const DetailsPanel = ({ item, onClose, detailMode, setDetailMode }) => {
   const [locationDetails, setLocationDetails] = useState(null);
   const [loadingLocation, setLoadingLocation] = useState(false);
   const [errorLocation, setErrorLocation] = useState(null);
 
   useEffect(() => {
-    // Si cambiamos detailMode o item, reseteamos estado de ubicación
     setLocationDetails(null);
     setErrorLocation(null);
     setLoadingLocation(false);
@@ -19,11 +20,8 @@ const DetailsPanel = ({ item, onClose, detailMode, setDetailMode }) => {
       const fetchLocation = async () => {
         setLoadingLocation(true);
         try {
-          const response = await axios.get(
-            `http://192.168.1.20:3000/location/get/${item.ubicacion}`
-          );
-          console.log(response.data)
-          setLocationDetails(response.data);
+         const data = await exactLocation({itemUbication: item.ubicacion});
+         setLocationDetails(data);
         } catch (err) {
           console.error('Error al obtener detalles de ubicación:', err);
           setErrorLocation('No se pudo cargar la ubicación');

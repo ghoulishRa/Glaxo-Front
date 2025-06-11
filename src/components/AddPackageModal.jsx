@@ -25,7 +25,7 @@ const AddPackageModal = ({ isOpen, onClose, packages, onAdd }) => {
                     className="btn-add-modal"
                     onClick={() => {
                       onAdd(pkg);
-                      onClose(); // cerramos el modal tras elegir
+                      onClose(); 
                     }}
                   >
                     Agregar

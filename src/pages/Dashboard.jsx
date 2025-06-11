@@ -1,20 +1,23 @@
 // src/pages/Dashboard.jsx
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import MapCard from '../components/MapCard.jsx';
 import { useEmployeeSocket } from '../hooks/positionSocket.jsx';
+import { getLocationById } from '../api/locationApi.jsx';
 
-import Map1 from '../assets/FirstFloor.svg';
-import Map2 from '../assets/FirstFloor.svg';
-import MapDetail from '../assets/Rack1-1.svg'; 
+// assets
+import Map1 from '../assets/FirstFloor/FirstFloor.svg';
+import RackFront from '../assets/FirstFloor/Rack1-1.svg';
+import RackBack from '../assets/FirstFloor/Rack1-2.svg';
 
-const maps = [
-  { id: 1, name: 'Primer Piso', svg: Map1},
-  //{ id: 2, name: 'Live Map', svg: Map2 },
-];
+const maps = [{ id: 1, name: 'Primer Piso', svg: Map1 }];
+const imageScale = 18.4, originP = { x: 225, y: 95 };
 
-const imageScale = 18.4;
-const originP = { x: 225, y: 95 };
+const generalConfig = {
+  startX: 225,     // punto inicial del rack 1
+  startY: 85,
+  stepX: 38,       // separación horizontal entre racks
+  maxRacks: 10     // número de racks a mostrar
+};
 
 const Dashboard = ({
   paqueteList,
@@ -24,33 +27,25 @@ const Dashboard = ({
   detailMode,
 }) => {
   const [floorIndex, setFloorIndex] = useState(0);
+  const [rackView, setRackView] = useState('front');
   const robotPosition = useEmployeeSocket();
 
-  
   const [locationDetails, setLocationDetails] = useState(null);
   const [mapItemsArray, setMapItemsArray] = useState([]);
 
+  // fetch datos ubicación paquete
   useEffect(() => {
-    const fetchLocation = async () => {
-      if (!selectedItem || selectedItem.type === 'robot') {
-        setLocationDetails(null);
-        return;
-      }
-
-      try {
-        const response = await axios.get(
-          `http://192.168.1.20:3000/location/get/${selectedItem.ubicacion}`
-        );
-        setLocationDetails(response.data); // { rack, nivel, celda }
-      } catch (err) {
-        console.error('Error obteniendo ubicación:', err);
-        setLocationDetails(null);
-      }
-    };
-
-    fetchLocation();
+    if (!selectedItem || selectedItem.type === 'robot') {
+      setLocationDetails(null);
+      return;
+    }
+    (async () => {
+      const data = await getLocationById(selectedItem.ubicacion);
+      setLocationDetails(data);
+    })();
   }, [selectedItem]);
 
+  
   useEffect(() => {
     if (!selectedItem) {
       setMapItemsArray([]);
@@ -58,102 +53,79 @@ const Dashboard = ({
     }
 
     if (selectedItem.type === 'robot') {
-      // Modo robot: posición en tiempo real
-      const pos = {
-        x: originP.x + robotPosition.y * imageScale,
-        y: originP.y + robotPosition.x * imageScale,
-      };
-      console.log('Dibujando robot en posición:', pos);
-      setMapItemsArray([{ ...selectedItem, position: pos }]);
-    } else {
-      // selectedItem es paquete
-      if (detailMode) {
-      
-        const celdaNum = locationDetails?.celda;
-        console.log( "celda", locationDetails.celda )
-        console.log( "rack", locationDetails.rack )
-        console.log( "rack ", locationDetails.nivel )
+      if (!detailMode && floorIndex === 0) {
+        const pos = {
+          x: originP.x + robotPosition.y * imageScale,
+          y: originP.y + robotPosition.x * imageScale,
+        };
+        setMapItemsArray([{ ...selectedItem, position: pos }]);
+      } else {
+        setMapItemsArray([]);
+      }
+      return;
+    }
 
-        let pos;
-        if (typeof celdaNum === 'number') {
-          
-          const celdaIndex = celdaNum - 1;
-          const col = Math.floor(celdaIndex / 3);  
-          const row = celdaIndex % 3;             
+    // paquete
+    if (!detailMode) {
+      // vista general: solo nivel 1 en piso 1
+      if (floorIndex === 0 && locationDetails?.nivel === 1) {
+        const celda = locationDetails.celda;
+        const rackNum = Math.ceil(celda / 3);
+        const rackIndex = Math.min(rackNum, generalConfig.maxRacks) - 1;
 
-          
-          const baseX = 435;
-          const deltaX = 125;
-          const baseY = 240;
-          const deltaY = 40;
-
-          
-          pos = {
-            x: baseX - col * deltaX,
-            y: baseY - row * deltaY
-          };
-        } else {
-          
-          pos = { x: 50, y: 50 };
-        }
+        const pos = {
+          x: generalConfig.startX + rackIndex * generalConfig.stepX,
+          y: generalConfig.startY
+        };
 
         setMapItemsArray([{ ...selectedItem, position: pos }]);
       } else {
-        
-        const celdaNum = locationDetails ? locationDetails.celda : null;
-        const packagesPositions = {
-          1: { x: 225, y: 85 },
-          2: { x: 260, y: 85 },
-          3: { x: 295, y: 85 },
-          4: { x: 340, y: 85 },
-          5: { x: 260, y: 85 },
-          6: { x: 225, y: 85 },
-          7: { x: 295, y: 85 },
-          8: { x: 340, y: 85 }, 
-          9: { x: 260, y: 85 },
-          10:{ x: 100,  y: 85 }
-          
-        };
-
-        let pos = { x: 50, y: 50 };
-
-        if (celdaNum != null) {
-          const grupo = Math.ceil(celdaNum / 3);
-          pos = packagesPositions[grupo] || { x: 50, y: 50 };
-  }
-
-        setMapItemsArray([{ ...selectedItem, position: pos }]);
+        setMapItemsArray([]);
       }
+      return;
     }
-  }, [selectedItem, locationDetails, robotPosition, detailMode]);
 
-  const handlePrev = () => {
-    setFloorIndex(prev => (prev === 0 ? maps.length - 1 : prev - 1));
-  };
-  const handleNext = () => {
-    setFloorIndex(prev => (prev === maps.length - 1 ? 0 : prev + 1));
-  };
+    // detailMode = true → vista rack
+    if (locationDetails) {
+      const celda = locationDetails.celda;
+      const isFront = celda <= 15;
+      setRackView(isFront ? 'front' : 'back');
+
+      const cfg = isFront
+        ? { baseX: 435, deltaX: 125, baseY: 240, deltaY: 40, max: 15 }
+        : { baseX: 540, deltaX: 125, baseY: 240, deltaY: 40, max: 15 };
+
+      const idx = (celda - 1) % cfg.max;
+      const col = Math.floor(idx / 3), row = idx % 3;
+      const pos = {
+        x: cfg.baseX - col * cfg.deltaX,
+        y: cfg.baseY - row * cfg.deltaY,
+      };
+
+      setMapItemsArray([{ ...selectedItem, position: pos }]);
+    } else {
+      setMapItemsArray([]);
+    }
+  }, [selectedItem, locationDetails, robotPosition, detailMode, floorIndex]);
+
+  const handlePrev = () => setFloorIndex(p => (p === 0 ? maps.length - 1 : p - 1));
+  const handleNext = () => setFloorIndex(p => (p === maps.length - 1 ? 0 : p + 1));
+  const getDetailMap = () => (rackView === 'front' ? RackFront : RackBack);
 
   return (
     <div>
       <MapCard
         items={mapItemsArray}
-        map={detailMode ? MapDetail : maps[floorIndex].svg}
+        map={detailMode ? getDetailMap() : maps[floorIndex].svg}
         floorName={maps[floorIndex].name}
         onPrev={handlePrev}
         onNext={handleNext}
-        onItemClick={clickedId => {
-          const foundRobot = robotList.find(r => r.id === clickedId);
-          if (foundRobot) {
-            onToggleItem(foundRobot);
-            return;
-          }
-          const foundPackage = paqueteList.find(p => p.id === clickedId);
-          if (foundPackage) {
-            onToggleItem(foundPackage);
-            return;
-          }
-          console.warn('Ítem clicado en el mapa no encontrado:', clickedId);
+        onItemClick={id => {
+          const foundRobot = robotList.find(r => r.id === id);
+          if (foundRobot) return void onToggleItem(foundRobot);
+          const foundPackage = paqueteList.find(p => p.id === id);
+          if (foundPackage) return void onToggleItem(foundPackage);
+          console.warn('Ítem no encontrado:', id);
         }}
       />
     </div>
