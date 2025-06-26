@@ -45,7 +45,7 @@ const LoginSignUp = () => {
 
     return (
     <div className="login-page">
-      <h2>Ingresar</h2>
+      <h2> Package Tracker </h2>
       <div className="login-input">
         <span className="login-icon">
           <EnvelopeAltIcon/>

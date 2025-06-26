@@ -1,5 +1,5 @@
 // src/App.jsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 import {
@@ -49,10 +49,19 @@ const App = () => {
   ];
 
   const { paquetes, loading, error } = useFetchData('5', '/pkg/get_recent');
+
   const [selectedItem, setSelectedItem] = useState(null);
   const [sidebarPackages, setSidebarPackages] = useState([]);
   const [showAddModal, setShowAddModal] = useState(false);
   const [detailMode, setDetailMode] = useState(false);
+
+  useEffect(() => {
+    const nuevos = paquetes.filter(p => p.status === 2);
+    setSidebarPackages(prev => {
+      const nuevosFiltrados = nuevos.filter(np => !prev.some(p => p.id === np.id));
+      return [...prev, ...nuevosFiltrados];
+    });
+  }, [paquetes]);
 
   const handleToggleItem = (item) => {
     if (selectedItem && selectedItem.id === item.id) {
@@ -108,7 +117,7 @@ const App = () => {
 
                 <main className="dashboard-wrapper">
                   <Dashboard
-                    paqueteList={sidebarPackages}
+                    paqueteList={paquetes.filter(p => p.status === 2)}
                     robotList={robots}
                     selectedItem={selectedItem}
                     onToggleItem={handleToggleItem}
